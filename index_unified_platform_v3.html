@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"utf-8\"/>
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>
+  <title>21st Sec First Term – Unified Platform (v3)</title>
+  <meta name=\"description\" content=\"Interactive all-in-one file: Units 1–6 with tabs, games, British TTS, and English-only exam UI.\"/>
+  <style>
+    :root{
+      --bg:#0f1020; --fg:#ffffff; --muted:#cbd5e1; --accent:#a855f7; /* default purple */
+      --card:#1b1c36; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --ring:#ffffff2e;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Arial}
+    header{padding:24px 16px;text-align:center}
+    .brand{font-weight:700;letter-spacing:.3px}
+    .ring{width:140px;height:140px;margin:18px auto;border-radius:50%;
+          border:6px solid var(--ring);border-top-color:var(--accent);
+          animation:spin 3s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    h1{margin:6px 0 10px}
+    .subtitle{color:var(--muted);font-size:.95rem}
+
+    .toolbar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+    .btn{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
+    .btn.secondary{background:#374151}
+
+    nav[role=tablist]{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 16px}
+    .tab{padding:10px 14px;border-radius:12px;background:var(--card);cursor:pointer;border:none;color:var(--fg)}
+    .tab.active{outline:2px solid var(--accent)}
+
+    main{max-width:1100px;margin:0 auto;padding:8px 16px 32px}
+    section.unit{background:var(--card);border-radius:14px;padding:16px;margin:12px 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+
+    .card{background:#12122a;border:1px solid #2a2b4a;border-radius:12px;padding:14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .muted{color:var(--muted)}
+
+    .theme{display:flex;gap:8px;justify-content:center;margin:8px 0}
+    .swatch{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid #fff}
+    .swatch[title=\"Purple\"]{background:#a855f7}
+    .swatch[title=\"Lavender\"]{background:#b28fe6}
+    .swatch[title=\"Blue (Ocean)\"]{background:#3b82f6}
+    .swatch[title=\"Pink\"]{background:#ec4899}
+    .swatch[title=\"Mint\"]{background:#2dd4bf}
+    .swatch[title=\"Maroon\"]{background:#7f1d1d}
+
+    /* Matching */
+    .match-area{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .draggable,.dropzone{padding:10px;border-radius:10px;border:1px dashed #555}
+    .draggable{background:#1a1b32}
+    .dropzone{background:#0e0f22;min-height:42px}
+    .dropzone.correct{border-color:var(--ok)}
+    .dropzone.wrong{border-color:var(--err)}
+
+    /* Exam modal */
+    .modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:12px}
+    .modal .box{background:#0f1325;border:1px solid #2e3252;max-width:820px;width:100%;border-radius:14px;padding:16px}
+    .modal .box h3{margin-top:0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class=brand>Animated Ring – 1st Sec (Light)</div>
+    <div class=ring aria-hidden=true></div>
+    <h1>21st Sec First Term</h1>
+    <p class=subtitle>All units in one interactive file. Exam UI in English only.</p>
+
+    <div class=toolbar>
+      <button class=btn id=enableSound>🔊 Enable Sound</button>
+      <button class="btn secondary" id=testVoice>🧪 Test Voice</button>
+    </div>
+
+    <div class=theme aria-label="Theme colors">
+      <div class=swatch title=Purple data-accent=#a855f7></div>
+      <div class=swatch title=Lavender data-accent=#b28fe6></div>
+      <div class=swatch title="Blue (Ocean)" data-accent=#3b82f6></div>
+      <div class=swatch title=Pink data-accent=#ec4899></div>
+      <div class=swatch title=Mint data-accent=#2dd4bf></div>
+      <div class=swatch title=Maroon data-accent=#7f1d1d></div>
+    </div>
+  </header>
+
+  <nav class=tabs role=tablist aria-label=Units>
+    <button class="tab active" role=tab aria-selected=true data-panel=u1>Unit 1</button>
+    <button class=tab role=tab aria-selected=false data-panel=u2>Unit 2</button>
+    <button class=tab role=tab aria-selected=false data-panel=u3>Unit 3</button>
+    <button class=tab role=tab aria-selected=false data-panel=u4>Unit 4</button>
+    <button class=tab role=tab aria-selected=false data-panel=u5>Unit 5</button>
+    <button class=tab role=tab aria-selected=false data-panel=u6>Unit 6</button>
+  </nav>
+
+  <main>
+    <!-- ===== Unit 1 ===== -->
+    <section id=u1 class=unit>
+      <h2>Unit 1 – Egypt's Heritage</h2>
+      <div class=grid>
+        <div class=card>
+          <h3>Vocabulary – Spelling Challenge</h3>
+          <p class=muted>Show Arabic meaning → Hear English word → Type it.</p>
+          <div class=row>
+            <button class=btn onclick="speak('heritage')">🔊 Hear</button>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Games – Drag & Drop Matching</h3>
+          <div id=u1-matching class=match-area></div>
+          <div class=row>
+            <button class="btn secondary" onclick="initMatching('u1-matching')">Reload</button>
+            <span class=muted id=u1-match-score>Matched: 0/0</span>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Reading – 6 Simple Sentences</h3>
+          <p class=muted>Add sentences and MCQs.</p>
+        </div>
+        <div class=card>
+          <h3>Grammar – Quick Guide + MCQs</h3>
+          <ul class=muted>
+            <li><b>must / mustn't</b> → rules & strong obligation.</li>
+            <li><b>should / shouldn't</b> → advice & recommendation.</li>
+            <li><b>have to</b> → necessity from outside.</li>
+          </ul>
+          <div class=row>
+            <button class="btn secondary" onclick="speak('You must wear a helmet.')">🔊 Speak</button>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Unit Exam</h3>
+          <p class=muted>Words: <span id=u1-words></span></p>
+          <button class=btn onclick="startExam('unit1')">Start Unit 1 Exam</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Unit 2 – Lavender ===== -->
+    <section id=u2 class=unit hidden>
+      <h2>Unit 2 – Hands Help, Hearts Care</h2>
+      <div class=grid>
+        <div class=card>
+          <h3>Vocabulary – Spelling Challenge</h3>
+          <p class=muted>Hear English → type word.</p>
+          <div class=row>
+            <button class=btn onclick="speak('volunteer')">🔊 Hear</button>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Games – Drag & Drop Matching</h3>
+          <div id=u2-matching class=match-area></div>
+          <div class=row>
+            <button class="btn secondary" onclick="initMatching('u2-matching')">Reload</button>
+            <span class=muted id=u2-match-score>Matched: 0/0</span>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Reading – 6 Simple Sentences</h3>
+          <p class=muted>Add sentences and MCQs.</p>
+        </div>
+        <div class=card>
+          <h3>Grammar – Modal Verbs</h3>
+          <p class=muted>Add MCQs.</p>
+        </div>
+        <div class=card>
+          <h3>Unit Exam</h3>
+          <p class=muted>Words: <span id=u2-words></span></p>
+          <button class=btn onclick="startExam('unit2')">Start Unit 2 Exam</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Unit 3 – Ocean ===== -->
+    <section id=u3 class=unit hidden>
+      <h2>Unit 3 – Truth vs. Lies</h2>
+      <div class=grid>
+        <div class=card>
+          <h3>Vocabulary – Spelling Challenge</h3>
+          <p class=muted>Show Arabic meaning → Hear English → type word.</p>
+          <div class=row>
+            <button class=btn onclick="speak('appearance')">🔊 Hear</button>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Games – Drag & Drop Matching</h3>
+          <div id=u3-matching class=match-area></div>
+          <div class=row>
+            <button class="btn secondary" onclick="initMatching('u3-matching')">Reload</button>
+            <span class=muted id=u3-match-score>Matched: 0/0</span>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Reading – 6 Simple Sentences</h3>
+          <p class=muted>Add sentences and MCQs.</p>
+        </div>
+        <div class=card>
+          <h3>Grammar – Conditionals (Zero / First / Second)</h3>
+          <ul class=muted>
+            <li><b>Zero</b>: if + present, present (facts & scientific truths).</li>
+            <li><b>First</b>: if + present, will + inf (real future possibility).</li>
+            <li><b>Second</b>: if + past simple, would + inf (imaginary/unreal).</li>
+          </ul>
+          <div class=row>
+            <button class="btn secondary" onclick="speak('If it rains tomorrow, we will stay at home.')">🔊 Speak</button>
+            <button class="btn secondary" onclick="speak('If I had more time, I would learn Spanish.')">🔊 Speak</button>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Unit Exam</h3>
+          <p class=muted>Words: <span id=u3-words></span></p>
+          <button class=btn onclick="startExam('unit3')">Start Unit 3 Exam</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Unit 4 – Pink ===== -->
+    <section id=u4 class=unit hidden>
+      <h2>Unit 4 – Save and Shine</h2>
+      <div class=grid>
+        <div class=card><h3>Vocabulary</h3><p class=muted>Add lesson vocabulary and audio.</p></div>
+        <div class=card><h3>Games</h3><p class=muted>Add matching and MCQs.</p></div>
+        <div class=card><h3>Reading</h3><p class=muted>Add 6 sentences + MCQs.</p></div>
+        <div class=card><h3>Grammar</h3><p class=muted>Add rule & practice.</p></div>
+        <div class=card><h3>Unit Exam</h3><p class=muted>Words: <span id=u4-words></span></p><button class=btn onclick="startExam('unit4')">Start Unit 4 Exam</button></div>
+      </div>
+    </section>
+
+    <!-- ===== Unit 5 – Mint ===== -->
+    <section id=u5 class=unit hidden>
+      <h2>Unit 5 – Using Technology at Schools</h2>
+      <div class=grid>
+        <div class=card>
+          <h3>Vocabulary – Spelling Challenge</h3>
+          <p class=muted>Show Arabic meaning → Hear English → type word.</p>
+          <div class=row>
+            <button class=btn onclick="speak('multilingual')">🔊 Hear</button>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Games – Drag & Drop Matching</h3>
+          <div id=u5-matching class=match-area></div>
+          <div class=row>
+            <button class="btn secondary" onclick="initMatching('u5-matching')">Reload</button>
+            <span class=muted id=u5-match-score>Matched: 0/0</span>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Reading – 6 Simple Sentences</h3>
+          <p class=muted>Add sentences and MCQs.</p>
+        </div>
+        <div class=card>
+          <h3>Grammar – Quantifiers</h3>
+          <ul class=muted>
+            <li><b>some/any</b> → some (affirmative & offers/requests), any (negatives & questions).</li>
+            <li><b>many/much</b> → many with countable, much with uncountable.</li>
+            <li><b>a few/a little</b> → small positive quantity (countable/uncountable).</li>
+          </ul>
+          <div class=row>
+            <button class="btn secondary" onclick="speak('There are many apps for learning.')">🔊 Speak</button>
+            <button class="btn secondary" onclick="speak('We don\'t have much time today.')">🔊 Speak</button>
+            <button class="btn secondary" onclick="speak('Can I have some help?')">🔊 Speak</button>
+          </div>
+        </div>
+        <div class=card>
+          <h3>Unit Exam</h3>
+          <p class=muted>Words: <span id=u5-words></span></p>
+          <button class=btn onclick="startExam('unit5')">Start Unit 5 Exam</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Unit 6 – Maroon ===== -->
+    <section id=u6 class=unit hidden>
+      <h2>Unit 6 – Job Hunting</h2>
+      <div class=grid>
+        <div class=card><h3>Vocabulary – Spelling Challenge</h3><p class=muted>Add words (job titles, skills, interviews...)</p></div>
+        <div class=card><h3>Games – Drag & Drop Matching</h3><div id=u6-matching class=match-area></div><div class=row><button class="btn secondary" onclick="initMatching('u6-matching')">Reload</button><span class=muted id=u6-match-score>Matched: 0/0</span></div></div>
+        <div class=card><h3>Reading – 6 Simple Sentences</h3><p class=muted>Add short texts with MCQs.</p></div>
+        <div class=card><h3>Grammar</h3><p class=muted>Add relevant grammar point (e.g., relative clauses or CV language).</p></div>
+        <div class=card><h3>Unit Exam</h3><p class=muted>Words: <span id=u6-words></span></p><button class=btn onclick="startExam('unit6')">Start Unit 6 Exam</button></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Exam Modal -->
+  <div id=examModal class=modal role=dialog aria-modal=true aria-labelledby=examTitle>
+    <div class=box>
+      <h3 id=examTitle>Unit Exam</h3>
+      <div id=examBody></div>
+      <div class=row style="margin-top:12px">
+        <button class=btn onclick=closeExam()>Close</button>
+        <button class="btn secondary" onclick=resetExam()>Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Accent per unit (auto-switch when selecting a tab)
+    const unitAccent = { u1:'#a855f7', u2:'#b28fe6', u3:'#3b82f6', u4:'#ec4899', u5:'#2dd4bf', u6:'#7f1d1d' };
+
+    // Tabs activation + theme + remember last unit
+    const tabs = document.querySelectorAll('.tab');
+    const last = localStorage.getItem('lastUnit') || 'u1';
+    function showUnit(id){
+      tabs.forEach(x => { x.classList.toggle('active', x.dataset.panel===id); x.setAttribute('aria-selected', x.dataset.panel===id); });
+      document.querySelectorAll('section.unit').forEach(s => s.hidden = true);
+      document.getElementById(id).hidden = false;
+      const accent = unitAccent[id] || '#a855f7';
+      document.documentElement.style.setProperty('--accent', accent);
+      localStorage.setItem('lastUnit', id);
+    }
+    tabs.forEach(t => t.addEventListener('click', () => showUnit(t.dataset.panel)));
+    showUnit(last);
+
+    // Manual theme switch
+    document.querySelectorAll('.swatch').forEach(s => s.addEventListener('click', ()=> document.documentElement.style.setProperty('--accent', s.dataset.accent)));
+
+    // British voice TTS (slow, prefer female if available)
+    let soundEnabled = localStorage.getItem('soundEnabled')==='1';
+    function pickUKVoice(){
+      const voices = speechSynthesis.getVoices();
+      return voices.find(v => v.lang === 'en-GB' && /female|zira|hazel|libby|serena|uk/i.test(v.name)) ||
+             voices.find(v => v.lang === 'en-GB') || voices[0];
+    }
+    function speak(text){
+      if(!soundEnabled){ console.warn('Enable Sound first'); return; }
+      const u = new SpeechSynthesisUtterance(text); u.rate = 0.85; u.lang = 'en-GB';
+      const v = pickUKVoice(); if (v) u.voice = v; speechSynthesis.cancel(); speechSynthesis.speak(u);
+    }
+    if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = () => {};
+    document.getElementById('enableSound').addEventListener('click', () => {
+      soundEnabled = true; localStorage.setItem('soundEnabled','1');
+      const u = new SpeechSynthesisUtterance('Sound enabled. British voice ready.'); u.lang='en-GB'; u.rate=0.9; const v = pickUKVoice(); if(v) u.voice = v; speechSynthesis.speak(u);
+    });
+    document.getElementById('testVoice').addEventListener('click', () => speak('This is a test of the British English voice.'));
+
+    // Correct answer sound (fallback to beep)
+    function playCorrect(){
+      const a = new Audio('assets/audio/correct.mp3'); a.play().catch(()=> {
+        const ctx = new (window.AudioContext||window.webkitAudioContext)();
+        const o = ctx.createOscillator(); const g = ctx.createGain();
+        o.type='triangle'; o.frequency.value=880; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.001, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.4, ctx.currentTime+0.05);
+        o.start(); o.stop(ctx.currentTime+0.2);
+      });
+    }
+
+    // Minimal matching game engine (fill later with real data)
+    const matchingData = { 'u1-matching': [], 'u2-matching': [], 'u3-matching': [], 'u4-matching': [], 'u5-matching': [], 'u6-matching': [] };
+    function initMatching(containerId){
+      const container = document.getElementById(containerId); const pairs = matchingData[containerId] || [];
+      const area = document.createElement('div'); area.className = 'match-area';
+      const leftCol = document.createElement('div'); const rightCol = document.createElement('div');
+      area.appendChild(leftCol); area.appendChild(rightCol);
+      const terms = pairs.map(p=>p.term); const meanings = pairs.map(p=>p.meaning).sort(()=>Math.random()-0.5);
+      meanings.forEach(m => { const dz = document.createElement('div'); dz.className='dropzone'; dz.dataset.meaning=m; dz.textContent=m; rightCol.appendChild(dz); });
+      terms.forEach(t => { const d = document.createElement('div'); d.className='draggable'; d.draggable=true; d.textContent=t; d.dataset.term=t; d.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', t); }); leftCol.appendChild(d); });
+      container.replaceWith(area); area.id = containerId; matched[containerId] = 0; updateMatchScore(containerId, pairs.length);
+      rightCol.querySelectorAll('.dropzone').forEach(dz => { dz.addEventListener('dragover', e => e.preventDefault()); dz.addEventListener('drop', e => { e.preventDefault(); const term = e.dataTransfer.getData('text/plain'); const pair = pairs.find(p=>p.term===term && p.meaning===dz.dataset.meaning); if(pair){ dz.classList.add('correct'); speak(term); playCorrect(); matched[containerId]++; } else { dz.classList.add('wrong'); setTimeout(()=>dz.classList.remove('wrong'), 600); } updateMatchScore(containerId, pairs.length); }); });
+    }
+    const matched = {}; function updateMatchScore(id, total){ const el = document.getElementById(id.replace('-matching','-match-score')); if(el) el.textContent = `Matched: ${matched[id]||0}/${total}`; }
+    ['u1-matching','u2-matching','u3-matching','u4-matching','u5-matching','u6-matching'].forEach(initMatching);
+
+    // Show unit words (from assets/json)
+    const wordTargets = { u1:'assets/json/unit1_words.json', u2:'assets/json/unit2_words.json', u3:'assets/json/unit3_words.json', u4:'assets/json/unit4_words.json', u5:'assets/json/unit5_words.json', u6:'assets/json/unit6_words.json' };
+    Object.entries(wordTargets).forEach(([id, url])=>{
+      fetch(url).then(r=>r.json()).then(j=>{ const span = document.getElementById(id+'-words'); if(span) span.textContent = (j.words||[]).join(', '); }).catch(()=>{});
+    });
+
+    // Exam UI (English only) – Placeholder until Word→JSON is provided
+    const exams = { unit1:{sections:[]}, unit2:{sections:[]}, unit3:{sections:[]}, unit4:{sections:[]}, unit5:{sections:[]}, unit6:{sections:[]} };
+    function startExam(key){
+      const modal = document.getElementById('examModal'); const body = document.getElementById('examBody');
+      document.getElementById('examTitle').textContent = key.replace(/unit/,'Unit ') + ' – Interactive Exam';
+      body.innerHTML = '<p class=\"muted\">Exam data not loaded. Please provide Word file to convert into JSON.</p>';
+      modal.style.display='flex';
+    }
+    function closeExam(){ document.getElementById('examModal').style.display='none'; }
+    function resetExam(){ localStorage.removeItem('exam_progress'); alert('Exam reset.'); }
+  </script>
+</body>
+</html>
