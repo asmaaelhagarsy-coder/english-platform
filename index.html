@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>English Platform – First Term (Portal)</title>
+<meta name="description" content="Simple GitHub Pages portal linking standalone unit files."/>
+<style>
+  :root{--bg:#0f1020;--fg:#fff;--muted:#cbd5e1;--card:#1b1c36;--accent:#a855f7}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Arial}
+  header{padding:20px 16px;text-align:center}
+  .ring{width:120px;height:120px;margin:12px auto;border-radius:50%;border:6px solid #ffffff22;border-top-color:var(--accent);animation:spin 3s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  h1{margin:8px 0 4px}
+  p.muted{color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;padding:12px 16px 28px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid #2a2b4a;border-radius:14px;padding:16px}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:12px;padding:10px 14px;margin-top:10px}
+  .item h3{margin:0 0 8px}
+  .footer{opacity:.85;text-align:center;margin-top:14px}
+</style>
+</head>
+<body>
+  <header>
+    <div class="ring" aria-hidden="true"></div>
+    <h1>21st Sec First Term – Units Portal</h1>
+    <p class="muted">Click a unit to open it in a new tab. Files are linked as-is (no changes inside).</p>
+  </header>
+
+  <main>
+    <section class="grid">
+      <article class="card item">
+        <h3>Landing – Animated Ring</h3>
+        <p class="muted">Intro splash page (optional).</p>
+        <a class="btn" target="_blank" href="index_ring_animated_light.html">Open</a>
+      </article>
+
+      <article class="card item">
+        <h3>Unit 1 – Egypt's Heritage (Classic)</h3>
+        <p class="muted">Your original Unit 1 page.</p>
+        <a class="btn" target="_blank" href="index_simple_sheet_classic%20(1)%20(4)%20(3).html">Open</a>
+      </article>
+
+      <article class="card item">
+        <h3>Unit 2 – Hands Help, Hearts Care (Lavender)</h3>
+        <p class="muted">Mini platform (Lessons 1–4 + Exam).</p>
+        <a class="btn" target="_blank" href="unit2_mini_platform_lavender%20(1).html">Open</a>
+      </article>
+
+      <article class="card item">
+        <h3>Unit 3 – Truth vs. Lies (Ocean)</h3>
+        <p class="muted">Mini platform (Lessons 1–4 + Exam).</p>
+        <a class="btn" target="_blank" href="unit3_mini_platform_ocean.html">Open</a>
+      </article>
+
+      <article class="card item">
+        <h3>Unit 4 – Save and Shine (v4)</h3>
+        <p class="muted">Interactive Lessons Hub.</p>
+        <a class="btn" target="_blank" href="Unit4_SaveAndShine_Interactive_v4%20(1).html">Open</a>
+      </article>
+
+      <article class="card item">
+        <h3>Unit 5 – Using Technology at Schools (Mint)</h3>
+        <p class="muted">Mini platform (Lessons 1–4 + Exam).</p>
+        <a class="btn" target="_blank" href="unit5_mini_platform_mint.html">Open</a>
+      </article>
+
+      <article class="card item">
+        <h3>Unit 6 – Job Hunting (v1)</h3>
+        <p class="muted">Interactive Lessons Hub.</p>
+        <a class="btn" target="_blank" href="Unit6_JobHunting_Interactive_v1%20(1).html">Open</a>
+      </article>
+    </section>
+
+    <p class="footer muted">Tip: Upload all these files next to <code>index.html</code> in a public GitHub repo and enable GitHub Pages.</p>
+  </main>
+</body>
+</html>
